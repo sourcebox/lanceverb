@@ -92,11 +92,11 @@ where
     }
 }
 
-impl<B> ::std::fmt::Debug for DelayLine<B>
+impl<B> core::fmt::Debug for DelayLine<B>
 where
     B: Buffer,
 {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> Result<(), ::std::fmt::Error> {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> Result<(), core::fmt::Error> {
         write!(
             f,
             "pos: {:?}, buffer: [f32; {:?}]",

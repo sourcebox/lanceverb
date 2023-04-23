@@ -18,7 +18,7 @@ impl OnePole {
     }
 
     pub fn damping(&mut self, value: f32) {
-        self.a = 1.0 - value.abs();
+        self.a = 1.0 - libm::fabsf(value);
         self.b = value;
     }
 
