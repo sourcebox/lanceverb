@@ -67,8 +67,8 @@ pub struct Reverb {
     one_pole_2: OnePole,
 }
 
-impl Reverb {
-    fn construct() -> Self {
+impl Default for Reverb {
+    fn default() -> Self {
         Self {
             delay_feed_1: 0.0,
             delay_feed_2: 0.0,
@@ -99,10 +99,12 @@ impl Reverb {
             one_pole_2: OnePole::new(),
         }
     }
+}
 
+impl Reverb {
     /// Contructor default reverb
     pub fn new() -> Self {
-        let mut verb = Self::construct();
+        let mut verb = Self::default();
         verb.bandwidth(0.9995);
         verb.decay(0.85);
         verb.damping(0.2);
