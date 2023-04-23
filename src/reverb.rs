@@ -9,8 +9,8 @@ struct OnePole {
 
 impl OnePole {
     /// Contructor for a new OnePole
-    pub fn new() -> OnePole {
-        OnePole {
+    pub fn new() -> Self {
+        Self {
             one: 0.0,
             a: 1.0,
             b: 0.0,
@@ -68,8 +68,8 @@ pub struct Reverb {
 }
 
 impl Reverb {
-    fn construct() -> Reverb {
-        Reverb {
+    fn construct() -> Self {
+        Self {
             delay_feed_1: 0.0,
             delay_feed_2: 0.0,
             decay_1: 0.0,
@@ -101,8 +101,8 @@ impl Reverb {
     }
 
     /// Contructor default reverb
-    pub fn new() -> Reverb {
-        let mut verb = Reverb::construct();
+    pub fn new() -> Self {
+        let mut verb = Self::construct();
         verb.bandwidth(0.9995);
         verb.decay(0.85);
         verb.damping(0.2);
@@ -113,7 +113,7 @@ impl Reverb {
     /// Set input signal bandwidth, in [0,1]
     /// This sets the cutoff frequency of a one-pole low-pass filter on the
     /// input signal.
-    pub fn bandwidth(&mut self, value: f32) -> &mut Reverb {
+    pub fn bandwidth(&mut self, value: f32) -> &mut Self {
         self.one_pole_1.damping(1.0 - value);
         self
     }
@@ -121,14 +121,14 @@ impl Reverb {
     /// Set high-frequency damping amount, in [0,1]
     /// Higher amounts will dampen the diffuse sound more quickly.
     /// rather than high frequencies.
-    pub fn damping(&mut self, value: f32) -> &mut Reverb {
+    pub fn damping(&mut self, value: f32) -> &mut Self {
         self.one_pole_1.damping(value);
         self.one_pole_2.damping(value);
         self
     }
 
     /// Set decay factor, in [0,1]
-    pub fn decay(&mut self, value: f32) -> &mut Reverb {
+    pub fn decay(&mut self, value: f32) -> &mut Self {
         self.decay = value;
         self
     }
@@ -136,7 +136,7 @@ impl Reverb {
     /// Set diffusion amounts, in [0, 1]
     /// Values near 0.7 are recommended. Moving further away from 0.7 will lead
     /// to more distinct echoes.
-    pub fn diffusion(&mut self, in_1: f32, in_2: f32, decay_1: f32, decay_2: f32) -> &mut Reverb {
+    pub fn diffusion(&mut self, in_1: f32, in_2: f32, decay_1: f32, decay_2: f32) -> &mut Self {
         self.delay_feed_1 = in_1;
         self.delay_feed_2 = in_2;
         self.decay_1 = decay_1;
@@ -145,25 +145,25 @@ impl Reverb {
     }
 
     /// Set input diffusion 1 amount, [0,1]
-    pub fn diffusion1(&mut self, value: f32) -> &mut Reverb {
+    pub fn diffusion1(&mut self, value: f32) -> &mut Self {
         self.delay_feed_1 = value;
         self
     }
 
     /// Set input diffusion 2 amount, [0,1]
-    pub fn diffusion2(&mut self, value: f32) -> &mut Reverb {
+    pub fn diffusion2(&mut self, value: f32) -> &mut Self {
         self.delay_feed_2 = value;
         self
     }
 
     /// Set tank decay diffusion 1 amount, [0,1]
-    pub fn diffusion_decay_1(&mut self, value: f32) -> &mut Reverb {
+    pub fn diffusion_decay_1(&mut self, value: f32) -> &mut Self {
         self.decay_1 = value;
         self
     }
 
     /// Set tank decay diffusion 2 amount, [0,1]
-    pub fn diffusion_decay_2(&mut self, value: f32) -> &mut Reverb {
+    pub fn diffusion_decay_2(&mut self, value: f32) -> &mut Self {
         self.decay_2 = value;
         self
     }

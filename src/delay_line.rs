@@ -13,8 +13,8 @@ where
     B: Buffer,
 {
     /// Default constructor for a delay line
-    pub fn new() -> DelayLine<B> {
-        DelayLine {
+    pub fn new() -> Self {
+        Self {
             pos: 0,
             buffer: B::zeroed(),
         }
@@ -85,7 +85,7 @@ where
     B: Buffer,
 {
     fn clone(&self) -> Self {
-        DelayLine {
+        Self {
             pos: self.pos,
             buffer: Buffer::clone(&self.buffer),
         }
