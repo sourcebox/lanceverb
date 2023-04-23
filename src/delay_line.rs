@@ -47,7 +47,7 @@ where
         if idx < 0 {
             idx += self.size() as i32;
         }
-        &self.buffer.index(idx as usize)
+        self.buffer.index(idx as usize)
     }
 
     /// Write value to delay
