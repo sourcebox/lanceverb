@@ -1,18 +1,17 @@
 use delay_line::{Buffer, DelayLine};
 
 #[derive(Copy, Clone, Debug)]
-struct OnePole { 
+struct OnePole {
     one: f32,
     a: f32,
     b: f32,
 }
 
 impl OnePole {
-
-    /// Contructor for a new OnePole 
+    /// Contructor for a new OnePole
     pub fn new() -> OnePole {
         OnePole {
-            one: 0.0, 
+            one: 0.0,
             a: 1.0,
             b: 0.0,
         }
@@ -27,11 +26,9 @@ impl OnePole {
         self.one = i * self.a + self.one * self.b;
         self.one
     }
-
 }
 
-
-/// Plate Reverberator 
+/// Plate Reverberator
 ///
 /// Design from:
 ///
@@ -44,7 +41,7 @@ pub struct Reverb {
     delay_feed_1: f32,
     delay_feed_2: f32,
     decay_1: f32,
-    decay_2: f32, 
+    decay_2: f32,
     decay: f32,
 
     pre_delay: DelayLine<[f32; 10]>,
@@ -57,21 +54,20 @@ pub struct Reverb {
     all_pass_decay_11: DelayLine<[f32; 672]>,
     all_pass_decay_12: DelayLine<[f32; 1800]>,
 
-    delay_11: DelayLine<[f32; 4453]>,    
-    delay_12: DelayLine<[f32; 3720]>,    
+    delay_11: DelayLine<[f32; 4453]>,
+    delay_12: DelayLine<[f32; 3720]>,
 
     one_pole_1: OnePole,
     all_pass_decay_21: DelayLine<[f32; 908]>,
     all_pass_decay_22: DelayLine<[f32; 2656]>,
-    
-    delay_21: DelayLine<[f32; 4217]>,    
-    delay_22: DelayLine<[f32; 3163]>,    
-    
+
+    delay_21: DelayLine<[f32; 4217]>,
+    delay_22: DelayLine<[f32; 3163]>,
+
     one_pole_2: OnePole,
 }
 
 impl Reverb {
-
     fn construct() -> Reverb {
         Reverb {
             delay_feed_1: 0.0,
@@ -116,10 +112,10 @@ impl Reverb {
 
     /// Set input signal bandwidth, in [0,1]
     /// This sets the cutoff frequency of a one-pole low-pass filter on the
-    /// input signal. 
+    /// input signal.
     pub fn bandwidth(&mut self, value: f32) -> &mut Reverb {
         self.one_pole_1.damping(1.0 - value);
-        self   
+        self
     }
 
     /// Set high-frequency damping amount, in [0,1]
@@ -159,14 +155,13 @@ impl Reverb {
         self.delay_feed_2 = value;
         self
     }
-    
+
     /// Set tank decay diffusion 1 amount, [0,1]
     pub fn diffusion_decay_1(&mut self, value: f32) -> &mut Reverb {
         self.decay_1 = value;
         self
     }
 
-    
     /// Set tank decay diffusion 2 amount, [0,1]
     pub fn diffusion_decay_2(&mut self, value: f32) -> &mut Reverb {
         self.decay_2 = value;
@@ -195,7 +190,6 @@ impl Reverb {
         a = self.all_pass_decay_12.allpass(a, self.decay_2);
         self.delay_12.write(a);
 
-
         b = self.all_pass_decay_21.allpass(b, -self.decay_1);
         b = self.delay_21.get_write_and_step(b);
         b = self.one_pole_2.call(b) * self.decay;
@@ -203,41 +197,46 @@ impl Reverb {
         self.delay_22.write(b);
 
         let output_1 = {
-            self.delay_21.read(266)
-            + self.delay_21.read(2974)
-            - self.all_pass_decay_22.read(1913)
-            + self.delay_22.read(1996)
-            - self.delay_11.read(1990)
-            - self.all_pass_decay_12.read(187)
-            - self.delay_12.read(1066) 
+            self.delay_21.read(266) + self.delay_21.read(2974) - self.all_pass_decay_22.read(1913)
+                + self.delay_22.read(1996)
+                - self.delay_11.read(1990)
+                - self.all_pass_decay_12.read(187)
+                - self.delay_12.read(1066)
         } * gain;
 
         let output_2 = {
-            self.delay_11.read(353)
-            + self.delay_11.read(3627)
-            - self.all_pass_decay_12.read(1228)
-            + self.delay_12.read(2673)
-            - self.delay_21.read(2111)
-            - self.all_pass_decay_22.read(335)
-            - self.delay_22.read(121) 
+            self.delay_11.read(353) + self.delay_11.read(3627) - self.all_pass_decay_12.read(1228)
+                + self.delay_12.read(2673)
+                - self.delay_21.read(2111)
+                - self.all_pass_decay_22.read(335)
+                - self.delay_22.read(121)
         } * gain;
 
         (output_1, output_2)
     }
 }
 
-
 /// Generates an implementation of Buffer for a fixed-size array with "$n" number of elements.
 macro_rules! impl_buffer {
-    ($n:expr) => (
+    ($n:expr) => {
         impl Buffer for [f32; $n] {
-            fn zeroed() -> Self { [0.0; $n] }
-            fn clone(&self) -> Self { *self }
-            fn len(&self) -> usize { $n }
-            fn index(&self, idx: usize) -> &f32 { &self[idx] }
-            fn index_mut(&mut self, idx: usize) -> &mut f32 { &mut self[idx] }
+            fn zeroed() -> Self {
+                [0.0; $n]
+            }
+            fn clone(&self) -> Self {
+                *self
+            }
+            fn len(&self) -> usize {
+                $n
+            }
+            fn index(&self, idx: usize) -> &f32 {
+                &self[idx]
+            }
+            fn index_mut(&mut self, idx: usize) -> &mut f32 {
+                &mut self[idx]
+            }
         }
-    )
+    };
 }
 
 impl_buffer!(10);

@@ -5,5 +5,5 @@ pub use reverb::Reverb;
 mod delay_line;
 mod reverb;
 
-#[cfg(feature="dsp-chain")]
+#[cfg(feature = "dsp-chain")]
 mod dsp_node;
