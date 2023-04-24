@@ -1,7 +1,5 @@
-extern crate dsp;
-
-use self::dsp::Sample;
-use reverb::Reverb;
+use crate::reverb::Reverb;
+use dsp::Sample;
 
 impl<F> dsp::Node<F> for Reverb
 where
