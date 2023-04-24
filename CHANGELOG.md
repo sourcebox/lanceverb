@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `Reverb::process` function to process a block of samples.
+- `Reverb::process_add` function to process a block of samples with mixing.
 
 ### Changed
 

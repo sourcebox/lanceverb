@@ -218,7 +218,7 @@ impl Reverb {
     }
 
     /// Compute stereo output for a block of mono samples.
-    /// - `input`       Dry mono input samples
+    /// - `input`       Dry mono input
     /// - `output_1`    Wet stereo output 1
     /// - `output_2`    Wet stereo output 2
     /// - `gain`        Output gain
@@ -234,6 +234,21 @@ impl Reverb {
             .zip(output_1.iter_mut().zip(output_2.iter_mut()))
         {
             (*out_sample_1, *out_sample_2) = self.calc_frame(*in_sample, gain);
+        }
+    }
+
+    /// Compute stereo output for a block of mono samples by adding the reverb to the mix.
+    /// - `input`   Dry mono input
+    /// - `mix_1`   Stereo mix 1
+    /// - `mix_2`   Stereo mix 2
+    /// - `gain`    Reverb gain
+    pub fn process_add(&mut self, input: &[f32], mix_1: &mut [f32], mix_2: &mut [f32], gain: f32) {
+        for (in_sample, (mix_sample_1, mix_sample_2)) in
+            input.iter().zip(mix_1.iter_mut().zip(mix_2.iter_mut()))
+        {
+            let (out_sample_1, out_sample_2) = self.calc_frame(*in_sample, gain);
+            *mix_sample_1 += out_sample_1;
+            *mix_sample_2 += out_sample_2;
         }
     }
 }
