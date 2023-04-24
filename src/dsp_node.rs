@@ -16,7 +16,7 @@ where
             f.to_sample::<S::Float>().to_sample::<S>()
         }
 
-        match F::n_channels() {
+        match F::CHANNELS {
             // Mono.
             1 => dsp::slice::map_in_place(output, |frame| {
                 frame.map(|sample| {
