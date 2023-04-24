@@ -7,6 +7,7 @@ edition = "2021"
 rust-version = "1.59"
 readme = "README.md"
 keywords = ["reverb", "dsp", "audio", "effect", "stereo"]
+categories = ["no-std", "multimedia::audio"]
 license = "MIT"
 repository = "https://github.com/MindBuffer/lanceverb.git"
 
