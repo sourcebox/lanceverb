@@ -216,6 +216,26 @@ impl Reverb {
 
         (output_1, output_2)
     }
+
+    /// Compute stereo output for a block of mono samples.
+    /// - `input`       Dry mono input samples
+    /// - `output_1`    Wet stereo output 1
+    /// - `output_2`    Wet stereo output 2
+    /// - `gain`        Output gain
+    pub fn process(
+        &mut self,
+        input: &[f32],
+        output_1: &mut [f32],
+        output_2: &mut [f32],
+        gain: f32,
+    ) {
+        for (in_sample, (out_sample_1, out_sample_2)) in input
+            .iter()
+            .zip(output_1.iter_mut().zip(output_2.iter_mut()))
+        {
+            (*out_sample_1, *out_sample_2) = self.calc_frame(*in_sample, gain);
+        }
+    }
 }
 
 /// Generates an implementation of Buffer for a fixed-size array with "$n" number of elements.

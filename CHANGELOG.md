@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `Reverb::process` function to process a block of samples.
+
 ### Changed
 
 - Made crate `no_std` for use in embedded context.
