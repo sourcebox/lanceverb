@@ -4,6 +4,7 @@ version = "0.3.0"
 authors = ["josh, mitchell.nordine@gmail.com"]
 description = "A super-fast mono-to-stereo plate reverberator."
 edition = "2021"
+rust-version = "1.59"
 readme = "README.md"
 keywords = ["reverb", "dsp", "audio", "effect", "stereo"]
 license = "MIT"
