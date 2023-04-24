@@ -10,7 +10,7 @@ repository = "https://github.com/MindBuffer/lanceverb.git"
 
 [dependencies]
 libm = "0.2.6"
-dsp-chain = { optional = true, version = "0.13.1" }
+dsp-chain = { optional = true, git = "https://github.com/RustAudio/dsp-chain.git" }
 
 [features]
 default = []

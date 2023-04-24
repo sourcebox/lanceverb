@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Made crate `no_std` for use in embedded context.
 - Replaced `Reverb::construct` by `Default` implementation.
+- Updated `dsp-chain` dependency.
 
 ### Removed
 
