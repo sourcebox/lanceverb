@@ -1,6 +1,6 @@
 [package]
 name = "lanceverb"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["josh", "mitchmindtree <mitchell.nordine@gmail.com>", "Oliver Rockstedt <info@sourcebox.de>"]
 description = "A super-fast mono-to-stereo plate reverberator."
 edition = "2021"
