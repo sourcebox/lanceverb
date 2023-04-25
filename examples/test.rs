@@ -1,14 +1,9 @@
-//!
 //! Simple example that applies reverb to the default input device's stream and passes it straight
 //! to the default output device's stream.
-//!
 
-extern crate dsp;
-extern crate lanceverb;
-extern crate portaudio as pa;
-
-use dsp::{Frame, Node};
+use dsp::Node;
 use lanceverb::Reverb;
+use portaudio as pa;
 
 fn main() {
     run().unwrap()
@@ -53,12 +48,12 @@ fn run() -> Result<(), pa::Error> {
     };
 
     // Construct PortAudio and the stream.
-    let pa = try!(pa::PortAudio::new());
+    let pa = pa::PortAudio::new()?;
     let chans = CHANNELS as i32;
     let settings =
-        try!(pa.default_duplex_stream_settings::<f32, f32>(chans, chans, SAMPLE_HZ, FRAMES));
-    let mut stream = try!(pa.open_non_blocking_stream(settings, callback));
-    try!(stream.start());
+        pa.default_duplex_stream_settings::<f32, f32>(chans, chans, SAMPLE_HZ, FRAMES)?;
+    let mut stream = pa.open_non_blocking_stream(settings, callback)?;
+    stream.start()?;
 
     // Wait for our stream to finish.
     while let Ok(true) = stream.is_active() {

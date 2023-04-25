@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrated to 2021 edition.
 - Replaced `Reverb::construct` by `Default` implementation.
 - Updated `dsp-chain` dependency.
+- Updated `portaudio` development dependency.
 
 ### Removed
 
