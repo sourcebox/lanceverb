@@ -1,3 +1,5 @@
+//! DSP node module.
+
 use crate::reverb::Reverb;
 use dsp::Sample;
 

@@ -1,8 +1,10 @@
-/// Delay-line whose maximum size is fixed
+//! Delay-line module.
+
+/// Delay-line whose maximum size is fixed.
 /// The advantage of using a static versus dynamic array is that its elements
 /// can be laid out in a predicatable location in memeory. This can improve
 /// access speeds if many delay-lines are used within another object, like a
-/// reverb
+/// reverb.
 pub struct DelayLine<B> {
     pos: usize,
     buffer: B,
@@ -12,7 +14,7 @@ impl<B> DelayLine<B>
 where
     B: Buffer,
 {
-    /// Default constructor for a delay line
+    /// Default constructor for a delay line.
     pub fn new() -> Self {
         Self {
             pos: 0,
@@ -20,12 +22,12 @@ where
         }
     }
 
-    /// Get size of delay-line
+    /// Get size of delay-line.
     pub fn size(&self) -> usize {
         self.buffer.len()
     }
 
-    /// Get element at back
+    /// Get element at back.
     pub fn back(&self) -> f32 {
         let idx = self.index_back();
         *self.buffer.index(idx)
@@ -41,7 +43,7 @@ where
         }
     }
 
-    /// Read value at delay i
+    /// Read value at delay i.
     pub fn read(&self, i: i32) -> &f32 {
         let mut idx = self.pos as i32 - i;
         if idx < 0 {
@@ -50,7 +52,7 @@ where
         self.buffer.index(idx as usize)
     }
 
-    /// Write value to delay
+    /// Write value to delay.
     pub fn write(&mut self, value: f32) {
         *self.buffer.index_mut(self.pos) = value;
         self.pos += 1;
@@ -59,14 +61,14 @@ where
         }
     }
 
-    /// Write new value and return oldest value
+    /// Write new value and return oldest value.
     pub fn get_write_and_step(&mut self, value: f32) -> f32 {
         let r = *self.buffer.index(self.pos);
         self.write(value);
         r
     }
 
-    /// Comb filter input using a delay time equal to the maximum size of the delay-line
+    /// Comb filter input using a delay time equal to the maximum size of the delay-line.
     pub fn comb(&mut self, value: f32, feed_fwd: f32, feed_bck: f32) -> f32 {
         let d = *self.buffer.index(self.pos);
         let r = value + d * feed_bck;
@@ -74,7 +76,7 @@ where
         d + r * feed_fwd
     }
 
-    /// Allpass filter input using a delay time equal to the maximum size of the delay-line
+    /// Allpass filter input using a delay time equal to the maximum size of the delay-line.
     pub fn allpass(&mut self, value: f32, feed_fwd: f32) -> f32 {
         self.comb(value, feed_fwd, -feed_fwd)
     }
@@ -106,7 +108,7 @@ where
     }
 }
 
-/// Some buffer of Float values that is compatible with the delay-line
+/// Some buffer of Float values that is compatible with the delay-line.
 pub trait Buffer {
     fn zeroed() -> Self;
     fn clone(&self) -> Self;

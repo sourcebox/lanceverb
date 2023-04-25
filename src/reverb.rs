@@ -1,3 +1,5 @@
+//! Reverberator module.
+
 use crate::delay_line::{Buffer, DelayLine};
 
 #[derive(Copy, Clone, Debug)]
@@ -8,7 +10,7 @@ struct OnePole {
 }
 
 impl OnePole {
-    /// Contructor for a new OnePole
+    /// Contructor for a new OnePole.
     pub fn new() -> Self {
         Self {
             one: 0.0,
@@ -28,7 +30,7 @@ impl OnePole {
     }
 }
 
-/// Plate Reverberator
+/// Plate Reverberator.
 ///
 /// Design from:
 ///
@@ -102,7 +104,7 @@ impl Default for Reverb {
 }
 
 impl Reverb {
-    /// Contructor default reverb
+    /// Contructs and returns a default reverb.
     pub fn new() -> Self {
         let mut verb = Self::default();
         verb.bandwidth(0.9995);
@@ -112,7 +114,8 @@ impl Reverb {
         verb
     }
 
-    /// Set input signal bandwidth, in [0,1]
+    /// Sets the input signal bandwidth in range `0.0-1.0`.
+    ///
     /// This sets the cutoff frequency of a one-pole low-pass filter on the
     /// input signal.
     pub fn bandwidth(&mut self, value: f32) -> &mut Self {
@@ -120,7 +123,8 @@ impl Reverb {
         self
     }
 
-    /// Set high-frequency damping amount, in [0,1]
+    /// Sets the high-frequency damping amount in range `0.0-1.0`.
+    ///
     /// Higher amounts will dampen the diffuse sound more quickly.
     /// rather than high frequencies.
     pub fn damping(&mut self, value: f32) -> &mut Self {
@@ -129,13 +133,14 @@ impl Reverb {
         self
     }
 
-    /// Set decay factor, in [0,1]
+    /// Sets the decay factor in range `0.0-1.0`.
     pub fn decay(&mut self, value: f32) -> &mut Self {
         self.decay = value;
         self
     }
 
-    /// Set diffusion amounts, in [0, 1]
+    /// Sets the diffusion amounts in range `0.0-1.0`.
+    ///
     /// Values near 0.7 are recommended. Moving further away from 0.7 will lead
     /// to more distinct echoes.
     pub fn diffusion(&mut self, in_1: f32, in_2: f32, decay_1: f32, decay_2: f32) -> &mut Self {
@@ -146,35 +151,35 @@ impl Reverb {
         self
     }
 
-    /// Set input diffusion 1 amount, [0,1]
+    /// Sets the input diffusion 1 amount in range `0.0-1.0`.
     pub fn diffusion1(&mut self, value: f32) -> &mut Self {
         self.delay_feed_1 = value;
         self
     }
 
-    /// Set input diffusion 2 amount, [0,1]
+    /// Sets the input diffusion 2 amount in range `0.0-1.0`.
     pub fn diffusion2(&mut self, value: f32) -> &mut Self {
         self.delay_feed_2 = value;
         self
     }
 
-    /// Set tank decay diffusion 1 amount, [0,1]
+    /// Sets the tank decay diffusion 1 amount in range `0.0-1.0`.
     pub fn diffusion_decay_1(&mut self, value: f32) -> &mut Self {
         self.decay_1 = value;
         self
     }
 
-    /// Set tank decay diffusion 2 amount, [0,1]
+    /// Sets the tank decay diffusion 2 amount in range `0.0-1.0`.
     pub fn diffusion_decay_2(&mut self, value: f32) -> &mut Self {
         self.decay_2 = value;
         self
     }
 
-    /// Compute wet stereo output from dry mono input
-    /// @param[ in] in      dry input sample
-    /// @param[out] out1    wet output sample 1
-    /// @param[out] out2    wet output sample 2
-    /// @param[ in] gain    gain of output
+    /// Computes the wet stereo output from dry mono input.
+    /// - `input` - Dry input sample.
+    /// - `gain`  - Gain of output.
+    ///
+    /// Returns a tuple of (wet output sample 1, wet output sample 2).
     pub fn calc_frame(&mut self, input: f32, gain: f32) -> (f32, f32) {
         let mut value = self.pre_delay.get_write_and_step(input * 0.5);
         value = self.one_pole.call(value);
@@ -217,11 +222,11 @@ impl Reverb {
         (output_1, output_2)
     }
 
-    /// Compute stereo output for a block of mono samples.
-    /// - `input`       Dry mono input
-    /// - `output_1`    Wet stereo output 1
-    /// - `output_2`    Wet stereo output 2
-    /// - `gain`        Output gain
+    /// Computes the stereo output for a block of mono samples.
+    /// - `input`    - Dry mono input.
+    /// - `output_1` - Wet stereo output 1.
+    /// - `output_2` - Wet stereo output 2.
+    /// - `gain` - Output gain.
     pub fn process(
         &mut self,
         input: &[f32],
@@ -237,11 +242,11 @@ impl Reverb {
         }
     }
 
-    /// Compute stereo output for a block of mono samples by adding the reverb to the mix.
-    /// - `input`   Dry mono input
-    /// - `mix_1`   Stereo mix 1
-    /// - `mix_2`   Stereo mix 2
-    /// - `gain`    Reverb gain
+    /// Computes the stereo output for a block of mono samples by adding the reverb to the mix.
+    /// - `input` - Dry mono input.
+    /// - `mix_1` - Stereo mix 1.
+    /// - `mix_2` - Stereo mix 2.
+    /// - `gain`  - Reverb gain.
     pub fn process_add(&mut self, input: &[f32], mix_1: &mut [f32], mix_2: &mut [f32], gain: f32) {
         for (in_sample, (mix_sample_1, mix_sample_2)) in
             input.iter().zip(mix_1.iter_mut().zip(mix_2.iter_mut()))
