@@ -2,7 +2,7 @@
 
 /// Delay-line whose maximum size is fixed.
 /// The advantage of using a static versus dynamic array is that its elements
-/// can be laid out in a predicatable location in memeory. This can improve
+/// can be laid out in a predicatable location in memory. This can improve
 /// access speeds if many delay-lines are used within another object, like a
 /// reverb.
 pub struct DelayLine<B> {
@@ -69,9 +69,9 @@ where
     }
 
     /// Comb filter input using a delay time equal to the maximum size of the delay-line.
-    pub fn comb(&mut self, value: f32, feed_fwd: f32, feed_bck: f32) -> f32 {
+    pub fn comb(&mut self, value: f32, feed_fwd: f32, feed_back: f32) -> f32 {
         let d = *self.buffer.index(self.pos);
-        let r = value + d * feed_bck;
+        let r = value + d * feed_back;
         self.write(r);
         d + r * feed_fwd
     }

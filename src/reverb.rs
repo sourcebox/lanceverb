@@ -10,7 +10,7 @@ struct OnePole {
 }
 
 impl OnePole {
-    /// Contructor for a new OnePole.
+    /// Constructor for a new OnePole.
     pub fn new() -> Self {
         Self {
             one: 0.0,
@@ -104,7 +104,7 @@ impl Default for Reverb {
 }
 
 impl Reverb {
-    /// Contructs and returns a default reverb.
+    /// Constructs and returns a default reverb.
     pub fn new() -> Self {
         let mut verb = Self::default();
         verb.bandwidth(0.9995);
