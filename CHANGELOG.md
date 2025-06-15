@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made crate `no_std` for use in embedded context.
 - Migrated to 2021 edition.
 - Replaced `Reverb::construct` by `Default` implementation.
+- Use GitHub Actions instead of Travis CI.
 
 ### Removed
 
