@@ -2,7 +2,7 @@
 name = "lanceverb"
 version = "0.4.0"
 authors = [
-    "josh",
+    "Joshua Batty <joshpbatty@gmail.com>",
     "mitchmindtree <mitchell.nordine@gmail.com>",
     "Oliver Rockstedt <info@sourcebox.de>",
 ]
