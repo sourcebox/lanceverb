@@ -8,7 +8,7 @@ authors = [
 ]
 description = "A super-fast mono-to-stereo plate reverberator."
 edition = "2021"
-rust-version = "1.59"
+rust-version = "1.63"
 readme = "README.md"
 keywords = ["reverb", "dsp", "audio", "effect", "stereo"]
 categories = ["no-std", "multimedia::audio"]
@@ -16,7 +16,7 @@ license = "MIT"
 repository = "https://github.com/MindBuffer/lanceverb.git"
 
 [dependencies]
-libm = "0.2.6"
+libm = "0.2.15"
 
 [features]
 default = []
