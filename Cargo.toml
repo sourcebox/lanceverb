@@ -13,7 +13,7 @@ readme = "README.md"
 keywords = ["reverb", "dsp", "audio", "effect", "stereo"]
 categories = ["no-std", "multimedia::audio"]
 license = "MIT"
-repository = "https://github.com/MindBuffer/lanceverb.git"
+repository = "https://github.com/sourcebox/lanceverb.git"
 
 [dependencies]
 libm = "0.2.15"
