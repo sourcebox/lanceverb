@@ -1,7 +1,11 @@
 [package]
 name = "lanceverb"
 version = "0.4.0"
-authors = ["josh", "mitchmindtree <mitchell.nordine@gmail.com>", "Oliver Rockstedt <info@sourcebox.de>"]
+authors = [
+    "josh",
+    "mitchmindtree <mitchell.nordine@gmail.com>",
+    "Oliver Rockstedt <info@sourcebox.de>",
+]
 description = "A super-fast mono-to-stereo plate reverberator."
 edition = "2021"
 rust-version = "1.59"
@@ -13,15 +17,6 @@ repository = "https://github.com/MindBuffer/lanceverb.git"
 
 [dependencies]
 libm = "0.2.6"
-dsp-chain = { optional = true, git = "https://github.com/RustAudio/dsp-chain.git", rev = "b9838d078adedf4cfdfd2ae06e14972797d0ee87" }
 
 [features]
 default = []
-
-[dev-dependencies]
-portaudio = "0.7.0"
-dsp-chain = { git = "https://github.com/RustAudio/dsp-chain.git", rev = "b9838d078adedf4cfdfd2ae06e14972797d0ee87" }
-
-[[example]]
-name = "test"
-required-features = ["dsp-chain"]

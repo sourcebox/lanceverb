@@ -17,9 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made crate `no_std` for use in embedded context.
 - Migrated to 2021 edition.
 - Replaced `Reverb::construct` by `Default` implementation.
-- Updated `dsp-chain` dependency.
-- Updated `portaudio` development dependency.
 
 ### Removed
 
-- `dsp-chain` as default feature.
+- `dsp_node` module and example because of `dsp-chain` being unmaintained with no working release version.
